@@ -22,16 +22,8 @@ mongoose.connection.on('connected', () => {
 
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
-
-
-app.use(passUserToView);
-app.use('/auth', authController);
-app.use(isSignedIn);
-app.use('/users/:userId/foods', foodsController);
-
-
-
 // app.use(morgan('dev'));
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -40,21 +32,27 @@ app.use(
   })
 );
 
-app.get('/', (req, res) => {
-  res.render('index.ejs', {
-    user: req.session.user,
-  });
-});
 
-app.get('/vip-lounge', (req, res) => {
+app.use(passUserToView);
+
+app.get('/', (req, res) => {
+  console.log("Session User:", req.session.user);
+
+
   if (req.session.user) {
-    res.send(`Welcome to the party ${req.session.user.username}.`);
+    res.redirect(`/users/${req.session.user._id}/foods`);
   } else {
-    res.send('Sorry, no guests allowed.');
+    res.render('index.ejs');
   }
 });
 
+
 app.use('/auth', authController);
+
+
+app.use(isSignedIn);
+app.use('/users/:userId/foods', foodsController);
+
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);

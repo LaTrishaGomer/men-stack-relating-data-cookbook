@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 
 const foodSchema = new mongoose.Schema({
-  // YOU DO: Define properties of food schema
+  name: {
+    type: String,
+    required: true,
+  },
 });
 
 
-
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -15,9 +17,7 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  pantry: {
-// YOU DO: embed foodSchema here
-  },
+  pantry: [foodSchema],
 });
 
 const User = mongoose.model('User', userSchema);
