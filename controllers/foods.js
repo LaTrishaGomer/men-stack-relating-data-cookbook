@@ -35,7 +35,6 @@ router.post('/', async (req, res) => {
   });
 
 
-
   router.delete('/:foodId', async (req, res) => {
     try {
       const currentUser = await User.findById(req.session.user._id);
@@ -47,6 +46,34 @@ router.post('/', async (req, res) => {
       res.redirect('/');
     }
   });
+
+  router.get('/:foodId/edit', async (req, res) => {
+    try {
+      const currentUser = await User.findById(req.session.user._id);
+      const food = currentUser.foods.id(req.params.foodId);
+      res.render('foods/edit.ejs', {
+        food: food,
+      });
+    } catch (error) {
+      console.log(error);
+      res.redirect('/');
+    }
+  });
+
+  router.put('/:foodId', async (req, res) => {
+    try {
+        const currentUser = await User.findById(req.session.user._id);
+        const food = currentUser.foods.id(req.params.foodId);
+        food.set(req.body);
+        await currentUser.save();
+        res.redirect(`/users/${currentUser._id}/foods`);
+    } catch (error) {
+        console.log(error);
+        res.redirect('/');
+    }
+});
+
+  
 
 
 
