@@ -21,6 +21,7 @@ router.get('/new', async (req, res) => {
     res.render('foods/new.ejs');
 });
 
+
 router.post('/', async (req, res) => {
     try {
       const currentUser = await User.findById(req.session.user._id);
@@ -33,10 +34,12 @@ router.post('/', async (req, res) => {
     }
   });
 
+
+
   router.delete('/:foodId', async (req, res) => {
     try {
       const currentUser = await User.findById(req.session.user._id);
-      currentUser.applications.id(req.params.foodId).deleteOne();
+      currentUser.foods.id(req.params.foodId).deleteOne();
       await currentUser.save();
       res.redirect(`/users/${currentUser._id}/foods`);
     } catch (error) {
@@ -44,6 +47,7 @@ router.post('/', async (req, res) => {
       res.redirect('/');
     }
   });
+
 
 
 module.exports = router;

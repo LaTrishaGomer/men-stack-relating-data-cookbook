@@ -22,7 +22,7 @@ mongoose.connection.on('connected', () => {
 
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
-// app.use(morgan('dev'));
+app.use(morgan('dev'));
 
 app.use(
   session({
@@ -52,6 +52,7 @@ app.use('/auth', authController);
 
 app.use(isSignedIn);
 app.use('/users/:userId/foods', foodsController);
+
 
 
 app.listen(port, () => {
