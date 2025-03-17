@@ -6,11 +6,8 @@
   <title>Home Page</title>
 </head>
     <body>
-      <% if (user) { %>
-          <h1>Welcome to Cookbook, <%= user.username %>!</h1>
-      <% } else { %>
-          <h1>Welcome to Cookbook!</h1>
+          <h1>Welcome to Pantry!</h1>
           <p>Please <a href="/auth/sign-in">sign in</a> to access your pantry.</p>
-      <% } %>
+          <p><a href="/auth/sign-up">sign up</a> sign up to create an account.</p>
 </body>
 </html>
